@@ -1,0 +1,27 @@
+scout:
+  target_materials:
+    - "бетон M300"
+    - "арматура 12mm"
+    - "цемент M500"
+    - "песок строительный"
+    - "кирпич керамический"
+  
+  suppliers:
+    строительные_базы:
+      - "https://petrovich.ru"
+      - "https://leroy.ru"
+      - "https://stroylandia.ru"
+    
+    агрегаторы:
+      - "https://stroyka.ru"
+      - "https://stroyportal.ru"
+  
+  news_feeds:
+    - "https://rss.stroygaz.ru/news"
+    - "https://www.construction.ru/rss/news"
+    - "https://rosbuild.ru/feed/"
+  
+  monitoring:
+    price_check_interval_hours: 24
+    news_check_interval_hours: 6
+    supplier_check_days: 30
