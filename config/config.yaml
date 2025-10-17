@@ -1,27 +1,77 @@
 scout:
+  # ВАШИ ТОВАРЫ для поиска
   target_materials:
     - "бетон M300"
-    - "арматура 12mm"
+    - "арматура 12мм"
     - "цемент M500"
-    - "песок строительный"
-    - "кирпич керамический"
-  
+    - "кирпич красный"
+    - "гипсокартон 12мм"
+    - "краска белая интерьерная"
+    - "плитка напольная керамическая"
+    - "утеплитель пенопласт 50мм"
+    - "профнастил С8"
+    - "доска обрезная 50x100"
+
+  # РЕАЛЬНЫЕ МАГАЗИНЫ МОСКВЫ И ОБЛАСТИ
   suppliers:
-    строительные_базы:
-      - "https://petrovich.ru"
-      - "https://leroy.ru"
-      - "https://stroylandia.ru"
-    
-    агрегаторы:
-      - "https://stroyka.ru"
-      - "https://stroyportal.ru"
-  
-  news_feeds:
-    - "https://rss.stroygaz.ru/news"
-    - "https://www.construction.ru/rss/news"
-    - "https://rosbuild.ru/feed/"
-  
-  monitoring:
-    price_check_interval_hours: 24
-    news_check_interval_hours: 6
-    supplier_check_days: 30
+    "Леруа Мерлен":
+      base_url: "https://leroymerlin.ru"
+      search_url: "https://leroymerlin.ru/search/?q={query}"
+      city: "Москва"
+      regions: ["Москва", "Московская область"]
+      selectors:
+        product_card: "div.phytpj4_plp"
+        product_title: "a[data-qa='product-name']"
+        product_price: "span[data-qa='product-price']"
+        product_link: "a[data-qa='product-name']"
+
+    "Петрович":
+      base_url: "https://petrovich.ru"
+      search_url: "https://petrovich.ru/search/{query}/"
+      city: "Москва"
+      regions: ["Москва", "Московская область"]
+      selectors:
+        product_card: "div.product-card"
+        product_title: "div.product-card__title"
+        product_price: "span.price"
+        product_link: "a.product-card__link"
+
+    "Стройландия":
+      base_url: "https://stroylandiya.ru"
+      search_url: "https://stroylandiya.ru/catalog/search/?q={query}"
+      city: "Москва"
+      regions: ["Москва", "Московская область"]
+      selectors:
+        product_card: "div.product-card"
+        product_title: "div.product-card__name"
+        product_price: "span.product-price__current"
+        product_link: "a.product-card__link"
+
+    "Бауцентр":
+      base_url: "https://baucenter.ru"
+      search_url: "https://baucenter.ru/search/?q={query}"
+      city: "Московская область"
+      regions: ["Московская область", "Москва"]
+      selectors:
+        product_card: "div.product-item"
+        product_title: "div.product-item__title"
+        product_price: "span.price"
+        product_link: "a.product-item__link"
+
+    "Максидом":
+      base_url: "https://www.maxidom.ru"
+      search_url: "https://www.maxidom.ru/search/?q={query}"
+      city: "Москва"
+      regions: ["Москва", "Московская область"]
+      selectors:
+        product_card: "div.b-product-block"
+        product_title: "a.b-product-block__name"
+        product_price: "span.b-price__num"
+        product_link: "a.b-product-block__name"
+
+  # Настройки парсера
+  parser_settings:
+    timeout: 15
+    max_products_per_search: 3
+    retry_attempts: 2
+    delay_between_requests: 2

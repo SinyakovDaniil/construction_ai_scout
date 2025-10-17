@@ -1,0 +1,227 @@
+{
+  "date": "2025-10-17 15:13",
+  "materials_analysis": [
+    {
+      "material": "бетон M300",
+      "best_supplier": "Стройландия",
+      "best_price": 4095.59,
+      "product_name": "бетон M300 (Стройландия)",
+      "url": "https://example.com/бетон-M300",
+      "economy": 342.26,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 4605.24
+        },
+        {
+          "supplier": "Петрович",
+          "price": 4612.71
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 4095.59
+        }
+      ]
+    },
+    {
+      "material": "арматура 12мм",
+      "best_supplier": "Леруа Мерлен",
+      "best_price": 77.44,
+      "product_name": "арматура 12мм (Леруа Мерлен)",
+      "url": "https://example.com/арматура-12мм",
+      "economy": 2.42,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 77.44
+        },
+        {
+          "supplier": "Петрович",
+          "price": 80.49
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 81.64
+        }
+      ]
+    },
+    {
+      "material": "цемент M500",
+      "best_supplier": "Леруа Мерлен",
+      "best_price": 409.38,
+      "product_name": "цемент M500 (Леруа Мерлен)",
+      "url": "https://example.com/цемент-M500",
+      "economy": 17.83,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 409.38
+        },
+        {
+          "supplier": "Петрович",
+          "price": 427.25
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 445.01
+        }
+      ]
+    },
+    {
+      "material": "кирпич красный",
+      "best_supplier": "Петрович",
+      "best_price": 24.64,
+      "product_name": "кирпич красный (Петрович)",
+      "url": "https://example.com/кирпич-красный",
+      "economy": 1.35,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 26.27
+        },
+        {
+          "supplier": "Петрович",
+          "price": 24.64
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 27.06
+        }
+      ]
+    },
+    {
+      "material": "гипсокартон 12мм",
+      "best_supplier": "Леруа Мерлен",
+      "best_price": 388.6,
+      "product_name": "гипсокартон 12мм (Леруа Мерлен)",
+      "url": "https://example.com/гипсокартон-12мм",
+      "economy": 10.56,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 388.6
+        },
+        {
+          "supplier": "Петрович",
+          "price": 403.78
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 405.1
+        }
+      ]
+    },
+    {
+      "material": "краска белая интерьерная",
+      "best_supplier": "Леруа Мерлен",
+      "best_price": 1719.33,
+      "product_name": "краска белая интерьерная (Леруа Мерлен)",
+      "url": "https://example.com/краска-белая-интерьерная",
+      "economy": 114.53,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 1719.33
+        },
+        {
+          "supplier": "Петрович",
+          "price": 1866.77
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 1915.48
+        }
+      ]
+    },
+    {
+      "material": "плитка напольная керамическая",
+      "best_supplier": "Леруа Мерлен",
+      "best_price": 799.22,
+      "product_name": "плитка напольная керамическая (Леруа Мерлен)",
+      "url": "https://example.com/плитка-напольная-керамическая",
+      "economy": 49.09,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 799.22
+        },
+        {
+          "supplier": "Петрович",
+          "price": 839.64
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 906.06
+        }
+      ]
+    },
+    {
+      "material": "утеплитель пенопласт 50мм",
+      "best_supplier": "Леруа Мерлен",
+      "best_price": 2580.05,
+      "product_name": "утеплитель пенопласт 50мм (Леруа Мерлен)",
+      "url": "https://example.com/утеплитель-пенопласт-50мм",
+      "economy": 175.71,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 2580.05
+        },
+        {
+          "supplier": "Петрович",
+          "price": 3004.66
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 2682.56
+        }
+      ]
+    },
+    {
+      "material": "профнастил С8",
+      "best_supplier": "Стройландия",
+      "best_price": 316.99,
+      "product_name": "профнастил С8 (Стройландия)",
+      "url": "https://example.com/профнастил-С8",
+      "economy": 25.35,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 362.32
+        },
+        {
+          "supplier": "Петрович",
+          "price": 347.72
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 316.99
+        }
+      ]
+    },
+    {
+      "material": "доска обрезная 50x100",
+      "best_supplier": "Леруа Мерлен",
+      "best_price": 11255.03,
+      "product_name": "доска обрезная 50x100 (Леруа Мерлен)",
+      "url": "https://example.com/доска-обрезная-50x100",
+      "economy": 757.98,
+      "all_options": [
+        {
+          "supplier": "Леруа Мерлен",
+          "price": 11255.03
+        },
+        {
+          "supplier": "Петрович",
+          "price": 11842.13
+        },
+        {
+          "supplier": "Стройландия",
+          "price": 12941.88
+        }
+      ]
+    }
+  ],
+  "summary": "Проанализировано 10 материалов. Экономия: 1497.08 руб.",
+  "total_economy": 1497.08
+}

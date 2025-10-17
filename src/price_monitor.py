@@ -1,124 +1,139 @@
-import requests
-import pandas as pd
-from bs4 import BeautifulSoup
-import time
-import yaml
-from datetime import datetime
+import csv
 import os
+import yaml
+import random
+from datetime import datetime
+from .web_parser import WebPriceParser
 
 class PriceMonitor:
     def __init__(self, config_path="config/config.yaml"):
-        with open(config_path, 'r', encoding='utf-8') as file:
-            self.config = yaml.safe_load(file)
+        self.config_path = config_path
+        self.load_config()
+        self.parser = WebPriceParser(self.config)
         
-        self.session = requests.Session()
-        self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        })
-        
-        # Создаем файл для хранения исторических данных, если его нет
-        self.data_file = "data/historical_prices.csv"
+        # Создаем папку для данных
         os.makedirs("data", exist_ok=True)
-        if not os.path.exists(self.data_file):
-            pd.DataFrame(columns=['material', 'supplier', 'price', 'date']).to_csv(self.data_file, index=False)
+        self.data_file = "data/historical_prices.csv"
 
-    def parse_petrovich(self, material):
-        """Парсинг цен с Петровича"""
-        # Заглушка для примера - в реальности нужно настроить под структуру сайта
+    def load_config(self):
+        """Загрузка конфигурации"""
         try:
-            # Эмуляция поиска и парсинга
-            mock_prices = {
-                "бетон M300": 4500,
-                "арматура 12mm": 85,
-                "цемент M500": 420,
-                "песок строительный": 350,
-                "кирпич керамический": 25
-            }
-            
-            return {
-                'supplier': 'Петрович',
-                'material': material,
-                'price': mock_prices.get(material, 0),
-                'date': datetime.now()
-            }
+            with open(self.config_path, 'r', encoding='utf-8') as file:
+                self.config = yaml.safe_load(file)
         except Exception as e:
-            print(f"Ошибка парсинга Петрович: {e}")
-            return None
+            print(f"❌ Ошибка загрузки конфига: {e}")
+            self.config = {'scout': {'target_materials': [], 'suppliers': {}}}
 
-    def parse_leroy(self, material):
-        """Парсинг цен с Леруа Мерлен"""
-        try:
-            mock_prices = {
-                "бетон M300": 4700,
-                "арматура 12mm": 88,
-                "цемент M500": 440,
-                "песок строительный": 380,
-                "кирпич керамический": 27
-            }
-            
-            return {
-                'supplier': 'Леруа Мерлен',
-                'material': material,
-                'price': mock_prices.get(material, 0),
-                'date': datetime.now()
-            }
-        except Exception as e:
-            print(f"Ошибка парсинга Леруа Мерлен: {e}")
-            return None
-
-    def get_all_prices(self):
-        """Получение цен по всем материалам у всех поставщиков"""
-        all_prices = []
-        
-        for material in self.config['scout']['target_materials']:
-            print(f"Сбор цен на: {material}")
-            
-            # Парсим у разных поставщиков
-            suppliers_data = [
-                self.parse_petrovich(material),
-                self.parse_leroy(material),
-                # Добавьте другие поставщики здесь
-            ]
-            
-            # Фильтруем None значения
-            valid_data = [data for data in suppliers_data if data is not None]
-            all_prices.extend(valid_data)
-            
-            # Пауза между запросами
-            time.sleep(2)
-        
-        return pd.DataFrame(all_prices)
-
-    def save_prices(self, prices_df):
-        """Сохранение цен в исторический файл"""
-        if os.path.exists(self.data_file):
-            historical_data = pd.read_csv(self.data_file)
-            updated_data = pd.concat([historical_data, prices_df], ignore_index=True)
+    def get_all_prices(self, use_parser=True):
+        """Получение всех цен"""
+        if use_parser:
+            print("🌐 Запуск автоматического парсинга цен...")
+            return self.parser.parse_all_prices()
         else:
-            updated_data = prices_df
+            return self.get_mock_prices()
+
+    def get_mock_prices(self):
+        """Заглушка для тестирования"""
+        base_prices = {
+            "бетон M300": 4500,
+            "арматура 12мм": 85, 
+            "цемент M500": 420,
+            "кирпич красный": 25,
+            "гипсокартон 12мм": 410,
+            "краска белая интерьерная": 1800,
+            "плитка напольная керамическая": 850,
+            "утеплитель пенопласт 50мм": 2800,
+            "профнастил С8": 350,
+            "доска обрезная 50x100": 12000
+        }
         
-        updated_data.to_csv(self.data_file, index=False)
-        print(f"Цены сохранены в {self.data_file}")
+        prices_data = []
+        for supplier_name in self.config['scout']['suppliers']:
+            for material in self.config['scout']['target_materials']:
+                base_price = base_prices.get(material, 1000)
+                price_variation = base_price * random.uniform(-0.1, 0.1)
+                price = round(base_price + price_variation, 2)
+                
+                prices_data.append({
+                    'material': material,
+                    'supplier': supplier_name,
+                    'price': price,
+                    'product_name': f"{material} ({supplier_name})",
+                    'url': f"https://example.com/{material.replace(' ', '-')}",
+                    'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                })
+        
+        return prices_data
+
+    def save_prices(self, prices_data):
+        """Сохранение цен в CSV"""
+        file_exists = os.path.exists(self.data_file)
+        
+        with open(self.data_file, 'a', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            
+            if not file_exists:
+                writer.writerow(['material', 'supplier', 'price', 'product_name', 'url', 'date'])
+            
+            for item in prices_data:
+                writer.writerow([
+                    item['material'],
+                    item['supplier'],
+                    item['price'],
+                    item.get('product_name', ''),
+                    item.get('url', ''),
+                    item.get('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                ])
+        
+        print(f"💾 Цены сохранены: {len(prices_data)} записей")
+
+    def find_best_prices(self):
+        """Поиск лучших цен по каждому материалу"""
+        prices_data = self.get_all_prices(use_parser=False)  # Пока используем заглушки
+        best_prices = []
+        
+        # Группируем по материалам
+        materials_dict = {}
+        for item in prices_data:
+            material = item['material']
+            if material not in materials_dict:
+                materials_dict[material] = []
+            materials_dict[material].append(item)
+        
+        # Находим лучшие цены
+        for material, items in materials_dict.items():
+            if items:
+                best_item = min(items, key=lambda x: x['price'])
+                all_prices = [item['price'] for item in items]
+                avg_price = sum(all_prices) / len(all_prices)
+                economy = avg_price - best_item['price']
+                
+                best_prices.append({
+                    'material': material,
+                    'best_supplier': best_item['supplier'],
+                    'best_price': best_item['price'],
+                    'product_name': best_item.get('product_name', ''),
+                    'url': best_item.get('url', ''),
+                    'economy': round(economy, 2),
+                    'all_options': [{'supplier': item['supplier'], 'price': item['price']} for item in items]
+                })
+        
+        return best_prices
 
     def get_price_history(self, material, days=30):
-        """Получение исторических цен по материалу"""
+        """Получение истории цен по материалу"""
         if not os.path.exists(self.data_file):
-            return pd.DataFrame()
+            return []
         
-        data = pd.read_csv(self.data_file)
-        data['date'] = pd.to_datetime(data['date'])
+        history = []
+        with open(self.data_file, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row['material'] == material:
+                    history.append({
+                        'supplier': row['supplier'],
+                        'price': float(row['price']),
+                        'date': row['date']
+                    })
         
-        # Фильтруем по материалу и дате
-        cutoff_date = datetime.now() - pd.Timedelta(days=days)
-        filtered_data = data[
-            (data['material'] == material) & 
-            (data['date'] >= cutoff_date)
-        ]
-        
-        return filtered_data
-
-if __name__ == "__main__":
-    monitor = PriceMonitor()
-    prices = monitor.get_all_prices()
-    print(prices)
-    monitor.save_prices(prices)
+        return history
